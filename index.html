@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>solarpros Stores Map</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Maps JavaScript API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHcVkUgYLoJnNKpTecRUpAyMHU-T8HqFY&loading=async&callback=initMap"></script>
+    <style>
+        body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+        #map { height: 100%; width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo, useRef } = React;
+
+        // Configuration - FULLY CONFIGURED FOR solarpros
+        const CONFIG = {
+            SHEET_ID: '1SzcwBIooLjgc8lVcXFyPM7UHc5eaav1y297VeRSOhlg',
+            SHEET_NAME: 'Freedom THD Stores',
+            API_KEY: 'AIzaSyBHcVkUgYLoJnNKpTecRUpAyMHU-T8HqFY',
+            REFRESH_MINUTES: 3,
+            OWNER_FILTER: 'solarpros',
+            RESERVE_URL: 'https://docs.google.com/forms/d/e/1FAIpQLSdgGe9EyaLg8RcbaRdKFTyP3PJnaoR8UrmxKMi0c_MGQ6o8FQ/viewform'
+        };
+
+        // Global variables for Google Maps
+        let map = null;
+        let markers = [];
+
+        // Initialize Google Map callback
+        window.initMap = function() {
+            console.log('✅ Google Maps API loaded successfully');
+        };
+
+        const SolarprosStoresMap = () => {
+            const [stores, setStores] = useState([]);
+            const [dashboardCounts, setDashboardCounts] = useState({ open: 0, reserved: 0, staffed: 0 });
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState('');
+            const [lastUpdated, setLastUpdated] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [statusFilter, setStatusFilter] = useState('all');
+            const [stateFilter, setStateFilter] = useState('all');
+            const [selectedStore, setSelectedStore] = useState(null);
+            const mapRef = useRef(null);
+            const [mapLoaded, setMapLoaded] = useState(false);
+
+            const addMarkersToMap = (storeData) => {
+                if (!map || !window.google) return;
+
+                // Clear existing markers
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
+
+                storeData.forEach(store => {
+                    const marker = new window.google.maps.Marker({
+                        position: { lat: store.latitude, lng: store.longitude },
+                        map: map,
+                        title: `solarpros ${store.storeName}`,
+                        icon: {
+                            path: window.google.maps.SymbolPath.CIRCLE,
+                            fillColor: '#2C5134',
+                            fillOpacity: 1,
+                            strokeColor: '#ffffff',
+                            strokeWeight: 1,
+                            scale: 8
+                        }
+                    });
+
+                    const infoWindow = new window.google.maps.InfoWindow({
+                        content: `
+                            <div style="padding: 12px; min-width: 220px; font-family: system-ui, sans-serif;">
+                                <h3 style="margin: 0 0 4px 0; font-size: 16px; font-weight: bold; color: #1f2937;">${store.storeName}: ${store.storeNumber}</h3>
+                                <h4 style="margin: 0 0 8px 0; font-size: 13px; font-weight: normal; color: #666;">${store.retailer}</h4>
+                                <p style="margin: 0 0 4px 0; font-size: 14px; color: #374151;">${store.address}</p>
+                                <p style="margin: 0 0 8px 0; font-size: 14px; color: #374151;">${store.city}, ${store.state} ${store.zip}</p>
+                            </div>
+                        `
+                    });
+
+                    marker.addListener('click', () => {
+                        markers.forEach(m => m.infoWindow && m.infoWindow.close());
+                        infoWindow.open(map, marker);
+                        marker.infoWindow = infoWindow;
+                        setSelectedStore(store);
+                    });
+
+                    markers.push(marker);
+                });
+            };
+
+            return (
+                <div className="w-full h-screen bg-gray-50 flex flex-col">
+                    {/* Header */}
+                    <div className="bg-white shadow-sm border-b px-4 md:px-6 py-3">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">solarpros Stores Map</h1>
+                    </div>
+
+                    <div className="flex-1 flex">
+                        {/* Google Map */}
+                        <div className="flex-1 relative">
+                            <div ref={mapRef} id="map" className="w-full h-full"></div>
+                            
+                            {loading && (
+                                <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10">
+                                    <div className="flex flex-col items-center gap-4 p-6 bg-white rounded-xl shadow-lg border">
+                                        <span className="text-gray-700 font-medium">Loading solarpros store data...</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<SolarprosStoresMap />, document.getElementById('root'));
+    </script>
+</body>
+</html>
