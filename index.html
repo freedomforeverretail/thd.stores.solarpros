@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root"></div>F
 
     <script type="text/babel">
         const { useState, useEffect, useMemo, useRef } = React;
@@ -195,8 +195,8 @@
                             else if (statusLower === 'staffed') counts.staffed++;
                             
                             // Parse coordinates
-                            const lat = parseFloat(row[16]);
-                            const lng = parseFloat(row[17]);
+                            const lat = parseFloat(row[17]);
+                            const lng = parseFloat(row[18]);
                             
                             if (!isNaN(lat) && !isNaN(lng)) {
                                 displayStores.push({
@@ -208,7 +208,7 @@
                                     address: row[12]?.toString().trim() || '',
                                     city: row[13]?.toString().trim() || '',
                                     state: row[14]?.toString().trim() || '',
-                                    zip: row[18]?.toString().trim() || '',
+                                    zip: row[19]?.toString().trim() || '',
                                     latitude: lat,
                                     longitude: lng
                                 });
