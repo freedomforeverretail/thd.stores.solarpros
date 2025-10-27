@@ -195,8 +195,8 @@
                             else if (statusLower === 'staffed') counts.staffed++;
                             
                             // Parse coordinates
-                            const lat = parseFloat(row[16]);
-                            const lng = parseFloat(row[17]);
+                            const lat = parseFloat(row[17]);
+                            const lng = parseFloat(row[18]);
                             
                             if (!isNaN(lat) && !isNaN(lng)) {
                                 displayStores.push({
