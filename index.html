@@ -127,7 +127,7 @@
                             fillColor: getStatusColor(store.status),
                             fillOpacity: 1,
                             strokeColor: '#ffffff',
-                            strokeWeight: 2,
+                            strokeWeight: 1,
                             scale: 8
                         }
                     });
@@ -280,9 +280,30 @@
 
             return (
                 <div className="w-full h-screen bg-gray-50 flex flex-col">
-                    <div className="bg-white shadow-sm border-b px-3 md:px-4 py-1">
-                        <div className="flex items-center justify-between mb-1">
-                            <h1 className="text-base md:text-lg font-bold" style={{ color: '#2C5134' }}>Solar Pros Stores Map</h1>
+                    <div className="bg-white shadow-sm border-b px-3 md:px-4 py-2">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-4">
+                                <h1 className="text-base md:text-lg font-bold" style={{ color: '#2C5134' }}>Solar Pros Stores Map</h1>
+                                <div className="flex items-center gap-3 text-sm">
+                                    <a 
+                                        href="https://freedomforeverretail.github.io/open.stores.map/" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1.5 hover:opacity-70 transition-opacity cursor-pointer"
+                                    >
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{backgroundColor: '#2C5134'}}></div>
+                                        <span style={{color: '#2C5134'}} className="font-medium">Open: {dashboardCounts.open}</span>
+                                    </a>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{backgroundColor: '#CDEA80'}}></div>
+                                        <span style={{color: '#7A8B3A'}} className="font-medium">Reserved: {dashboardCounts.reserved}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full" style={{backgroundColor: '#DB864E'}}></div>
+                                        <span style={{color: '#DB864E'}} className="font-medium">Staffed: {dashboardCounts.staffed}</span>
+                                    </div>
+                                </div>
+                            </div>
                             {lastUpdated && (
                                 <span className="text-xs text-gray-500">
                                     Updated: {lastUpdated.toLocaleTimeString()}
@@ -291,42 +312,10 @@
                         </div>
 
                         {error && (
-                            <div className="mb-1 p-1.5 bg-red-50 border border-red-200 rounded text-xs">
+                            <div className="mb-2 p-1.5 bg-red-50 border border-red-200 rounded text-xs">
                                 <span className="text-red-700">{error}</span>
                             </div>
                         )}
-
-                        <div className="mb-1 grid grid-cols-3 gap-1.5">
-                            <a 
-                                href="https://freedomforeverretail.github.io/open.stores.map/" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="p-1.5 rounded border cursor-pointer hover:opacity-80 transition-opacity" 
-                                style={{borderColor: '#2C5134', background: 'linear-gradient(135deg, #E8F5E8 0%, #D4EDD4 100%)'}}
-                            >
-                                <div className="flex items-center gap-1">
-                                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#2C5134'}}></div>
-                                    <span className="font-medium text-xs" style={{color: '#2C5134'}}>Open</span>
-                                </div>
-                                <div className="text-base font-bold" style={{color: '#2C5134'}}>{dashboardCounts.open}</div>
-                            </a>
-
-                            <div className="p-1.5 rounded border" style={{borderColor: '#CDEA80', background: 'linear-gradient(135deg, #F4F9E8 0%, #E8F0D3 100%)'}}>
-                                <div className="flex items-center gap-1">
-                                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#CDEA80'}}></div>
-                                    <span className="font-medium text-xs" style={{color: '#7A8B3A'}}>Reserved</span>
-                                </div>
-                                <div className="text-base font-bold" style={{color: '#7A8B3A'}}>{dashboardCounts.reserved}</div>
-                            </div>
-
-                            <div className="p-1.5 rounded border" style={{borderColor: '#DB864E', background: 'linear-gradient(135deg, #FDF2E9 0%, #F9E5D3 100%)'}}>
-                                <div className="flex items-center gap-1">
-                                    <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#DB864E'}}></div>
-                                    <span className="font-medium text-xs" style={{color: '#DB864E'}}>Staffed</span>
-                                </div>
-                                <div className="text-base font-bold" style={{color: '#DB864E'}}>{dashboardCounts.staffed}</div>
-                            </div>
-                        </div>
                         
                         <div className="flex flex-wrap gap-1.5">
                             <input
