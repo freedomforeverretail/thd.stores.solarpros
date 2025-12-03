@@ -84,6 +84,25 @@
                 }
             };
 
+            const zoomToStores = (storeData) => {
+                if (!map || !window.google || storeData.length === 0) return;
+
+                const bounds = new window.google.maps.LatLngBounds();
+                storeData.forEach(store => {
+                    bounds.extend({ lat: store.latitude, lng: store.longitude });
+                });
+                
+                map.fitBounds(bounds);
+                
+                // Add padding for better visibility
+                if (storeData.length === 1) {
+                    // If only one store, zoom to a reasonable level
+                    setTimeout(() => {
+                        map.setZoom(12);
+                    }, 100);
+                }
+            };
+
             const addMarkersToMap = (storeData) => {
                 if (!map || !window.google) return;
 
@@ -127,11 +146,8 @@
                     markers.push(marker);
                 });
 
-                if (markers.length > 0) {
-                    const bounds = new window.google.maps.LatLngBounds();
-                    markers.forEach(marker => bounds.extend(marker.getPosition()));
-                    map.fitBounds(bounds);
-                }
+                // Zoom to fit the markers
+                zoomToStores(storeData);
             };
 
             const fetchFromGoogleSheets = async () => {
