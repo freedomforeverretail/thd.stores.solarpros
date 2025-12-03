@@ -38,7 +38,7 @@
 
         const SolarProsStoresMap = () => {
             const [stores, setStores] = useState([]);
-            const [dashboardCounts, setDashboardCounts] = useState({ reserved: 0, staffed: 0 });
+            const [dashboardCounts, setDashboardCounts] = useState({ open: 0, reserved: 0, staffed: 0 });
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState('');
             const [lastUpdated, setLastUpdated] = useState(null);
