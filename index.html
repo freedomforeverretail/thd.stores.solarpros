@@ -472,6 +472,72 @@
                                 </div>
                             )}
                         </div>
+                            {selectedStore && (
+                                <div className="h-full flex flex-col">
+                                    {/* Header */}
+                                    <div className="flex items-center justify-between p-4 border-b">
+                                        <h2 className="text-xl font-bold text-gray-900">{selectedStore.storeName}</h2>
+                                        <button 
+                                            onClick={closeDrawer}
+                                            className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="flex-1 overflow-y-auto p-6">
+                                        <div className="space-y-6">
+                                            {/* Status */}
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-600 mb-2">Status</label>
+                                                <span 
+                                                    className="inline-block px-3 py-1 rounded-full text-sm font-semibold"
+                                                    style={{
+                                                        backgroundColor: getStatusBgColor(selectedStore.status),
+                                                        color: getStatusColor(selectedStore.status)
+                                                    }}
+                                                >
+                                                    {selectedStore.status}
+                                                </span>
+                                            </div>
+
+                                            {/* Retailer */}
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-600 mb-2">Retailer</label>
+                                                <p className="text-base text-gray-900">{selectedStore.retailer}</p>
+                                            </div>
+
+                                            {/* Store Number */}
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-600 mb-2">Store Number</label>
+                                                <p className="text-base text-gray-900">{selectedStore.storeNumber}</p>
+                                            </div>
+
+                                            {/* Address */}
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-600 mb-2">Address</label>
+                                                <p className="text-base text-gray-900">{selectedStore.address}</p>
+                                                <p className="text-base text-gray-900">{selectedStore.city}, {selectedStore.state} {selectedStore.zip}</p>
+                                            </div>
+
+                                            {/* Reserve Button */}
+                                            <div className="pt-4">
+                                                <a
+                                                    href={CONFIG.RESERVE_URL}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="block w-full text-center py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90"
+                                                    style={{ backgroundColor: '#2C5134' }}
+                                                >
+                                                    Reserve This Store
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
 
                         {/* Overlay when drawer is open */}
                         {drawerOpen && (
