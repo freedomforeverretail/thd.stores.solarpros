@@ -147,8 +147,10 @@
                     });
 
                     marker.addListener('click', () => {
+                        console.log('Marker clicked:', store);
                         setSelectedStore(store);
                         setDrawerOpen(true);
+                        console.log('Drawer should be open now');
                     });
 
                     markers.push(marker);
@@ -293,6 +295,10 @@
 
             return (
                 <div className="w-full h-screen bg-gray-50 flex flex-col">
+                    {/* Debug info */}
+                    <div style={{position: 'fixed', top: '50px', left: '10px', background: 'yellow', padding: '5px', zIndex: 9999, fontSize: '10px'}}>
+                        Drawer: {drawerOpen ? 'OPEN' : 'CLOSED'} | Store: {selectedStore ? selectedStore.storeName : 'NONE'}
+                    </div>
                     <div className="bg-white shadow-sm border-b px-3 md:px-4 py-1">
                         <div className="flex items-center justify-between mb-1">
                             <h1 className="text-base md:text-lg font-bold" style={{ color: '#2C5134' }}>Solar Pros Stores Map</h1>
